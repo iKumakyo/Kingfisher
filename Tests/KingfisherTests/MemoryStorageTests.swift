@@ -166,8 +166,8 @@ class MemoryStorageTests: XCTestCase {
         let expiration = StorageExpiration.seconds(0.5)
         try! storage.store(value: 1, forKey: "1", expiration: expiration)
 
-        delay(0.2) {
-            // This should extend the expiration to (0.5 + 0.2) from initially created.
+        delay(0.3) {
+            // This should extend the expiration to (0.3 + 0.5) from initially created.
             let v = try! self.storage.value(forKey: "1")
             XCTAssertEqual(v, 1)
         }
@@ -177,7 +177,7 @@ class MemoryStorageTests: XCTestCase {
             XCTAssertTrue(self.storage.isCached(forKey: "1"))
         }
         
-        delay(0.8) {
+        delay(1) {
             XCTAssertFalse(self.storage.isCached(forKey: "1"))
             exp.fulfill()
         }
@@ -211,7 +211,7 @@ class MemoryStorageTests: XCTestCase {
         XCTAssertEqual(
             obj.estimatedExpiration.timeIntervalSince1970,
             now.addingTimeInterval(1).timeIntervalSince1970,
-            accuracy: 0.1)
+            accuracy: 0.2)
 
         let exp = expectation(description: #function)
         delay(0.5) {
@@ -219,7 +219,7 @@ class MemoryStorageTests: XCTestCase {
             XCTAssertEqual(
                 obj.estimatedExpiration.timeIntervalSince1970,
                 now.addingTimeInterval(1.5).timeIntervalSince1970,
-                accuracy: 0.1)
+                accuracy: 0.2)
             exp.fulfill()
         }
         waitForExpectations(timeout: 3, handler: nil)
