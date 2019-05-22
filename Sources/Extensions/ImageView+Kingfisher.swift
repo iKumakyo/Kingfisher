@@ -81,9 +81,6 @@ extension KingfisherWrapper where Base: ImageView {
         completionHandler: ((Result<RetrieveImageResult, KingfisherError>) -> Void)? = nil) -> DownloadTask?
     {
         var mutatingSelf = self
-        /// If there is not source, completionHandler will be called directly,
-        /// and this will not task be returned.
-        /// the image view will display placeholder.
         guard let source = source else {
             mutatingSelf.placeholder = placeholder
             mutatingSelf.taskIdentifier = nil
